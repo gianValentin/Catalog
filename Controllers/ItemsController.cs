@@ -1,30 +1,35 @@
 using Microsoft.AspNetCore.Mvc;
 using Catalog.Repository;
 using Catalog.Entities;
+using Catalog.Dtos;
 
 namespace Catalog.Controllers;
 [ApiController]
 [Route("items")]
 public class ItemsController : ControllerBase
 {
-    private readonly InMemItemsRepository inMemItemsRepository;
+    private readonly IInItemsRepository repository;
 
-    public ItemsController()
+    public ItemsController(IInItemsRepository repository)
     {
-        inMemItemsRepository = new InMemItemsRepository();
+        this.repository = repository;
     }
 
     [HttpGet]
-    public IEnumerable<Item> GetItems()
+    public IEnumerable<ItemDto> GetItems()
     {
-        var items = inMemItemsRepository.GetItems();
+        var items = repository.GetItems().Select(item => item.AsDto());
         return items;
     }
 
     [HttpGet("{id}")]
-    public Item GetItem(Guid id)
+    public ActionResult<ItemDto> GetItem(Guid id)
     {
-        var item = inMemItemsRepository.GetItem(id);
-        return item;
+        var item = repository.GetItem(id);
+
+        if(item is null)
+            return NotFound();
+
+        return item.AsDto();
     }
 }

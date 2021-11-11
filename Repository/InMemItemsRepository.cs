@@ -1,7 +1,9 @@
 using Catalog.Entities;
 
 namespace Catalog.Repository;
-public class InMemItemsRepository
+
+
+public class InMemItemsRepository : IInItemsRepository
 {
     private readonly List<Item> items = new()
     {
