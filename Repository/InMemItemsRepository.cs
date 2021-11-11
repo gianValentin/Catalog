@@ -21,4 +21,21 @@ public class InMemItemsRepository : IInItemsRepository
     {
         return items.Where(item => item.Id == id).SingleOrDefault<Item>();
     }
+
+    public void CreatedItem(Item item)
+    {
+        items.Add(item);
+    }
+
+    public void UpdateItem(Item item)
+    {
+        var index = items.FindIndex(value => value.Id == item.Id);
+        items[index] = item;
+    }
+
+    public void DeleteItem(Guid id)
+    {
+        var index = items.FindIndex(value => value.Id == id);
+        items.RemoveAt(index);
+    }
 }
