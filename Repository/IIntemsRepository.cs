@@ -3,9 +3,9 @@ using Catalog.Entities;
 namespace Catalog.Repository;
 public interface IInItemsRepository
 {
-    Item GetItem(Guid id);
-    IEnumerable<Item> GetItems();
-    void CreatedItem(Item item);
-    void UpdateItem(Item item);
-    void DeleteItem(Guid id);
+    Task<Item> GetItemAsync(Guid id);
+    Task<IEnumerable<Item>> GetItemsAsync();
+    Task CreatedItemAsync(Item item);
+    Task UpdateItemAsync(Item item);
+    Task DeleteItemAsync(Guid id);
 }
